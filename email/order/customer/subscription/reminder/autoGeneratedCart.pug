@@ -1,0 +1,53 @@
+mixin billing(title, amount)
+   section(style="width: 100%;")
+      span(style="font-size:16px;--tw-text-opacity: 1;color: rgba(55, 65, 81, var(--tw-text-opacity));display:inline-block;width:calc(100% - 6rem);text-align:right;") #{title}
+      span(style="font-size:16px;float:right;width: 6rem;text-align:right;") #{amount}
+      
+html 
+    head 
+        title REMINDER: Auto selected products has been added to your weekly box.
+    body(style='text-align:center;margin:16px auto 0 auto;max-width: 560px;width:100%;background-color: #adb5bd;padding: 0.10rem 0; font-family: sans-serif; ')
+        div(style='background-color: #f8f9fa;border-radius: 0.25rem;margin:0 auto;padding: 1rem; color:rgba(75, 85, 99,1);')
+            header(style='width: 100%;border-bottom: 1px solid #e5e7eb;padding:0.75rem 0;')
+                if brandDetails.logo
+                    img(src=brandDetails.logo alt=brandDetails.name style="width: 64px;")
+                    h2(style="margin-top: 0.5rem; color: rgba(31, 41, 55,1);").mt-2 #{brandDetails.name}
+                else
+                    h2(style="color: rgba(31, 41, 55,1);") #{brandDetails.name} 
+            main(style="padding:0.75rem 0; font-size: 1.125rem; line-height: 1.75rem;")
+               p Hi #{customerDetails.name},
+               p(style="font-size:16px;") We've added some products in your cart since you have opted into auto product selection. You can still change products in your cart before #{subscriptionDetails.cutOffTimeStamp}. Visit  
+                  a(href=subscriptionDetails.siteUrl rel="noreferrer noopener" target="_blank") store 
+               section
+                  h2(style="font-size:20px; font-weight: normal;margin:0 0 6px 0") Order Details
+                  section(style="margin:0 auto;display:flex;align-items:center;justify-content: center;") 
+                     span(style="font-size:16px;font-weight:bold") Plan:&nbsp;
+                     p(style="margin:0;font-size:16px;") #{subscriptionDetails.title}, serves #{subscriptionDetails.servingSize}, count #{subscriptionDetails.count}
+                  section(style="margin:0 auto;display:flex;align-items:center;justify-content: center;") 
+                     span(style="font-size:16px;font-weight:bold") Delivery On:&nbsp;
+                     p(style="margin:0;font-size:16px;") #{subscriptionDetails.deliveryDate}
+                  section(style="width:70%;margin:0 auto;display:flex;justify-content: center;") 
+                     span(style="font-size:16px;font-weight:bold") Address:&nbsp;
+                     p(style="margin:0;font-size:16px;") #{customerDetails.address}
+               if cart.id
+                  table(style="width: 100%;")
+                     thead(style="height: 2rem;border-bottom: 1px solid #e5e7eb;")
+                        tr
+                           th(style="--tw-text-opacity: 1;color: rgba(107, 114, 128, var(--tw-text-opacity));text-align: left;") Item Name
+                           th(style="--tw-text-opacity: 1;color: rgba(107, 114, 128, var(--tw-text-opacity));text-align: right;") Price
+                     tbody
+                        each product in cart.products
+                           tr(style="font-size: 16px;border-bottom: 1px solid #e5e7eb;")
+                              td(style="display:flex;align-items:center;")
+                                 if product.image
+                                    img(src=product.image, alt=product.name width="48px" style="border-radius: 2px;margin-right:14px")
+                                 p #{product.name}
+                  section(style="width: 100%;")
+                     +billing("Item Total:", cart.itemTotal)
+                     +billing("Delivery Price:", cart.deliveryPrice)
+                     +billing("Tax:", cart.tax)
+                     +billing("Tip:", cart.tip)
+                     +billing("Discount:", cart.discount)
+                     +billing("Amount to pay:", cart.totalPrice)
+            footer(style='width: 100%;border-top: 1px solid #e5e7eb;padding:0.75rem 0;') 
+               p(style="font-size: 16px; line-height: 1.75rem;") Contact us at #{brandDetails.email} or #{brandDetails.phone} for any assistance.

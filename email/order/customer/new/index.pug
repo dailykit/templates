@@ -1,0 +1,65 @@
+mixin billing(title, amount)
+   section(style="width: 100%;")
+      span(style="--tw-text-opacity: 1;color: rgba(55, 65, 81, var(--tw-text-opacity));display:inline-block;width:calc(100% - 6rem);text-align:right;") #{title}
+      span(style="float:right;width: 6rem;text-align:right;") #{amount}
+
+html
+   head
+      title Order No.: #{id}
+      meta(name="viewport" content="width=device-width, initial-scale=1.0")
+   body(style='margin:0 auto;max-width: 560px;width:100%;text-align:center;--tw-bg-opacity: 1;background-color: rgba(209, 213, 219, var(--tw-bg-opacity));padding: 0.10rem 0;')
+      div(style='--tw-bg-opacity: 1;background-color: rgba(255, 255, 255, var(--tw-bg-opacity));border-radius: 0.25rem;margin:0 auto;padding: 1rem;')
+         header(style='width: 100%;border-bottom: 1px solid #e5e7eb;padding:0.75rem 0;')
+            if restaurant.brand.logo
+               img(src=restaurant.brand.logo alt=restaurant.brand.name style="width: 64px;")
+               h2(style="margin-top: 0.5rem;").mt-2 #{restaurant.brand.name}
+               p #{restaurant.address}
+            else
+               h2 #{restaurant.brand.name}
+         main(style="padding:0.75rem 0;")
+            p(style="--tw-text-opacity: 1;color: rgba(55, 65, 81, var(--tw-text-opacity));") Hey #{customer.firstName}, Thanks for choosing #{restaurant.brand.name} for your meal.
+            p(style="--tw-text-opacity: 1;color: rgba(55, 65, 81, var(--tw-text-opacity));") Your order has been placed and will be confirmed soon.
+            p(style="--tw-text-opacity: 1;color: rgba(55, 65, 81, var(--tw-text-opacity));") Please reach out at #{restaurant.contact.phoneNo} or #{restaurant.contact.email} for any further questions.
+            section
+               p(style="--tw-text-opacity: 1;color: rgba(55, 65, 81, var(--tw-text-opacity));") Here are the order details:
+               p Order No: #{id}#{isTest ? '(Test)' : ''}
+               p Order Status:
+                  span(style="--tw-text-opacity: 1;color: rgba(4, 120, 87, var(--tw-text-opacity));font-weight: 700;") #{status}
+               p Fulfillment Type: #{isPickup ? 'Pick Up' : 'Delivery'}
+               div
+                  p Payment Info:
+                  p(style="margin-left:1.5rem") Id: #{transactionId || 'N/A'}
+                  p(style="margin-left:1.5rem") Status: #{paymentStatus}
+               p Source: #{source}
+               if source === "subscription"
+                  div
+                     p Plan details:
+                     p(style="margin-left:1.5rem") Title: #{plan.title}
+                     p(style="margin-left:1.5rem") Serving Size: #{plan.serving}
+                     p(style="margin-left:1.5rem") Item Count: #{plan.count}
+               if !isPickup
+                  p Delivery Time:
+                     span #{dropoff.startsAt} - #{dropoff.endsAt}
+               if !isPickup
+                  div(style="margin-top: 0.5rem;")
+                     p Name: #{customer.firstName} #{customer.lastName}
+                     p Phone: #{customer.phone || 'N/A'}
+                     p Address: #{customer.address || 'N/A'}
+            table(style="width: 100%;")
+               thead(style="height: 2rem;border-bottom: 1px solid #e5e7eb;")
+                  tr
+                     th(style="--tw-text-opacity: 1;color: rgba(107, 114, 128, var(--tw-text-opacity));text-align: left;") Item Name
+                     th(style="--tw-text-opacity: 1;color: rgba(107, 114, 128, var(--tw-text-opacity));text-align: right;") Price
+               tbody
+                  each item in items
+                     tr(style="height: 1.75rem;border-bottom: 1px solid #e5e7eb;")
+                        td #{item.title}
+                        if source != 'subscription'
+                           td(style="text-align: right;") #{item.price}
+            section(style="width: 100%;")
+               +billing("Item Total:", itemTotal)
+               +billing("Delivery Price:", deliveryPrice)
+               +billing("Tax:", tax)
+               +billing("Tip:", tip)
+               +billing("Discount:", discount)
+               +billing("Amount Paid:", amountPaid)

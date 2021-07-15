@@ -1,0 +1,20 @@
+html 
+    head 
+        title SIGNUP: You have successfully signed up
+    body(style='margin:0 auto;max-width: 560px;width:100%;background-color: #adb5bd;padding: 0.10rem 0; font-family: sans-serif; ')
+        div(style='background-color: #f8f9fa;border-radius: 0.25rem;margin:0 auto;padding: 1rem; color:rgba(75, 85, 99,1);')
+            header(style='width: 100%;border-bottom: 1px solid #e5e7eb;padding:0.75rem 0;')
+                if brandDetails.logo
+                    img(src=brandDetails.logo alt=brandDetails.name style="width: 64px;")
+                    h2(style="margin-top: 0.5rem; color: rgba(31, 41, 55,1);").mt-2 #{brandDetails.name}
+                else
+                    h2(style="color: rgba(31, 41, 55,1);") #{brandDetails.name} 
+            main(style="padding:0.75rem 0; font-size: 1.125rem; line-height: 1.75rem;")
+                p Hi, 
+                    span(style="color: rgba(17, 24, 39, 1);") #{customerDetails.name}
+                p You have successfully registered to DailyKit.
+
+                p Thanks,
+                p #{brandDetails.name}
+
+                footer Contact us at <span style="color: rgba(17, 24, 39, 1);"> #{brandDetails.email}</span> or <span style="color: rgba(17, 24, 39, 1);">on our phoneNumber #{brandDetails.phone}</span> for any assistance.

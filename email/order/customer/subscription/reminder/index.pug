@@ -1,0 +1,28 @@
+html 
+   head 
+      title REMINDER: Your weekly box is waiting for your meal selection.
+   body(style='text-align:center;margin:0 auto;max-width: 560px;width:100%;background-color: #adb5bd;padding: 0.10rem 0; font-family: sans-serif; ')
+      div(style='background-color: #f8f9fa;border-radius: 0.25rem;margin:0 auto;padding: 1rem; color:rgba(75, 85, 99,1);')
+         header(style='width: 100%;border-bottom: 1px solid #e5e7eb;padding:0.75rem 0;')
+               if brandDetails.logo
+                  img(src=brandDetails.logo alt=brandDetails.name style="width: 64px;")
+                  h2(style="margin-top: 0.5rem; color: rgba(31, 41, 55,1);").mt-2 #{brandDetails.name}
+               else
+                  h2(style="color: rgba(31, 41, 55,1);") #{brandDetails.name} 
+         main(style="padding:0.75rem 0; font-size: 1.125rem; line-height: 1.75rem;")
+               p Hi&nbsp;
+                  span(style="color: rgba(17, 24, 39, 1);") #{customerDetails.name}
+               p. 
+                  Hope you're doing well. Your box is scheduled to deliver on <span style="color: rgba(17, 24, 39, 1);">  #{subscriptionDetails.deliveryDate} </span>  at <span style="color: rgba(17, 24, 39, 1);"> #{customerDetails.address}.</span> Our team noticed that you haven't made your selection for your weekly plan <span style="color: rgba(17, 24, 39, 1);"> #{subscriptionDetails.title}</span>, <span style="color: rgba(17, 24, 39, 1);"> #{subscriptionDetails.count} item count </span> and <span style="color: rgba(17, 24, 39, 1);"> #{subscriptionDetails.servingSize} servings. </span>
+               p.
+                  Could you please let us know the meals you wish to receive from our awesome menu before <span style="color: rgba(17, 24, 39, 1);"> #{subscriptionDetails.cutOffTimeStamp}.</span>
+
+               a(href=subscriptionDetails.siteUrl style="text-decoration: none; background-color: #06d6a0; color: #ffff; padding: 0.6rem 1rem; border-radius: 0.25rem;") Select Your Menu
+
+               p. 
+                  Please note: Incase you do not select before <span style="color: rgba(17, 24, 39, 1);"> #{subscriptionDetails.cutOffTimeStamp}</span>, your this week's order would be cancelled.
+
+               p Thanks, #{brandDetails.name}
+
+         footer(style='width: 100%;border-top: 1px solid #e5e7eb;padding:0.75rem 0;') 
+            p(style="font-size: 16px; line-height: 1.75rem;")  Contact us at #{brandDetails.email} and #{brandDetails.phone} for any assistance.

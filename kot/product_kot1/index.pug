@@ -1,0 +1,54 @@
+mixin section_header(name, value)
+   section.flex.justify-between.py-1.w-full.border-dashed.border-gray-600.border-t.border-b
+      h1.text-sm.tracking-wider #{name}
+      h2 #{value}
+
+mixin product_header(name, quantity)
+   header.flex.justify-between
+      span #{name}
+      section
+         span #{quantity}
+         input(type="checkbox").ml-3
+
+html
+   head
+      title Order #{id}
+      meta(name="viewport" content="width=device-width, initial-scale=1.0")
+      link(href='https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css' rel="stylesheet")
+   body.px-3
+      div.h-16
+      section
+         each type in types
+            if (productType === type.name || productType === 'multiple')
+               section.mb-4.w-full.flex.flex-col
+                  +section_header(type.name, type.products.length)
+                  section.flex.justify-between
+                     h3.font-bold Product
+                     span.font-bold.pr-6 Quantity
+                  ul.space-y-3.divide-y.divide-dashed.divide-gray-600
+                     each product in type.products
+                        li.pt-2
+                           +product_header(product.name,product.quantity)
+                           section.flex.flex-col
+                              h3.font-bold Supplier
+                              if(product.supplier.name)
+                                 span Name: #{product.supplier.name}
+                              if(product.supplier.item.name)
+                                 span Item: #{product.supplier.item.name}
+                           if stationName === null
+                              section.flex.flex-col
+                                 h3.font-bold Station
+                                 span #{product.station}
+      section
+         +section_header('ORDER INFO', `ORD#${id}`)
+         header.mt-2.flex.justify-between
+            h2 #{fulfillmentType}
+            span #{readyBy}
+         if stationName !== null
+            section.mt-2.flex.flex-col
+               h3.font-bold Station:
+                  span.font-normal #{stationName}
+         main.my-2.flex.flex-col
+            h2 #{customer.customerFirstName} #{customer.customerLastName}
+            span Email: #{customer.customerEmail}
+            span Phone: #{customer.customerPhone}

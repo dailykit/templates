@@ -1,0 +1,20 @@
+html
+   head
+      title #{name}
+      meta(name="viewport" content="width=device-width, initial-scale=1.0")
+      link(href='https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css' rel="stylesheet")
+   body.flex.flex-col.p-2
+      header.flex.justify-between
+         h2 #{name}
+         span.text-sm.font-medium ORD#{cart.orderId}
+      hr
+      div.flex.items-center
+         section.flex-1
+            div
+               span.text-sm.font-medium Recipe
+               h4 #{product.name}
+            div
+               span.text-sm.font-medium Quantity
+               h4 #{displayUnitQuantity}#{displayUnit}
+         section.self-right
+            img(src=qrCode).w-32
